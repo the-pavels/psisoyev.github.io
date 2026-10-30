@@ -1,6 +1,6 @@
-# scala.monster
+# pavels.im
 
-Personal site and blog of Pavels Sisojevs, built with [Astro](https://astro.build) and deployed to Netlify at [scala.monster](https://scala.monster).
+Personal site and blog of Pavels Sisojevs, built with [Astro](https://astro.build) and deployed to Netlify at [pavels.im](https://pavels.im).
 
 ## Development
 

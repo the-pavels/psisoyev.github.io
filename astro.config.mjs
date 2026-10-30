@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://scala.monster',
+  site: 'https://pavels.im',
   trailingSlash: 'ignore',
   integrations: [sitemap()],
   // Pages that moved or no longer exist

@@ -16,7 +16,7 @@ This post doesn't cover all the functionality but will help you get started with
 On certain topics I will not go into details, but rather provide links to allow you to do your own research. 
 The intent of this post is to familiarize you with the library on a high level. 
 In the next chapters I would like to cover more specific parts of ZIO ecosystem and guide you in a deep dive into the different parts of the library.
-If for some reason you are interested in ZIO version `1.0.0-RC17` you are welcome to read [first edition of this post](https://scala.monster/welcome-zio-old/).
+If for some reason you are interested in ZIO version `1.0.0-RC17` you are welcome to read [first edition of this post](/welcome-zio-old/).
 
 If you prefer reading code rather than text you please check the [project page](https://github.com/the-pavels/release-pager). 
 
@@ -42,7 +42,7 @@ When we create such an effect we have to run it manually. This means that all si
 You combine these effects into a program, which you run only once, on the very top level. 
 If you are not familiar with this concept I would recommend you to watch [this presentation](https://youtu.be/30q6BkBv5MY).
  
-Functional effects make unit testing of side-effects quite easy. This is covered in detail in [the next article](https://scala.monster/zio-test/). 
+Functional effects make unit testing of side-effects quite easy. This is covered in detail in [the next article](/zio-test/). 
 For now, it's important to mention, that ZIO has its own testing framework to test functional effects.
 
 ZIO has tools to build low-level concurrency constructs. The library has its own implementation of [fibers](https://en.wikipedia.org/wiki/Fiber_(computer_science)). 

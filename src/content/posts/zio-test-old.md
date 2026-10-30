@@ -7,13 +7,13 @@ tags: [scala, zio, ztest, unit testing, rc17]
 ---
 This article will help you to effectively test your "effectful" ZIO code.
 
-In the [previous article](https://scala.monster/welcome-zio/) we were exploring ZIO. 
-We've built the [release pager](https://scala.monster/design-a-pager/) application but we have skipped something very important - unit tests.
+In the [previous article](/welcome-zio/) we were exploring ZIO. 
+We've built the [release pager](/design-a-pager/) application but we have skipped something very important - unit tests.
 In this article, we will continue to develop the application and we will write tests for it.
 Full versions of the code snippets I will use in this article are available on [GitHub](https://github.com/the-pavels/release-pager/tree/chapter1/service/src/test/scala/io/pager).    
 
 **Warning! This blog post is outdated and is based on an old ZIO version `1.0.0-RC17`.** 
-Please [check out the updated post with the new ZIO test features](https://scala.monster/zio-test/). 
+Please [check out the updated post with the new ZIO test features](/zio-test/). 
 
 ZIO has its own ecosystem and provides developer tools to increase development efficiency.
 One of the things which are included in the ZIO toolbox is ZIO Test framework.
@@ -73,7 +73,7 @@ From now we can run our unit tests by clicking `Run` button near the class name 
 ##### Note: After ZIO 1.0 release this split won't be needed anymore as the syntax will look a bit differently. 
 
 We have defined our first spec. Currently it is empty, let's fix that.
-[Last time](https://scala.monster/welcome-zio/) we have implemented `SubscriptionLogic`. 
+[Last time](/welcome-zio/) we have implemented `SubscriptionLogic`. 
 Main task of it is to handle user subscriptions to GitHub repositories.  
 As we are writing unit tests we would like to abstract from the database and will store everything in memory. 
 Fortunately, we already have implemented in-memory versions of `ChatStorage` and `RepositoryVersionStorage`.    
@@ -239,7 +239,7 @@ We want to test the reaction of `ReleaseChecker` for different inputs.
 In this specific case, the service is gathering some of the inputs from other services.
 We would like to fake these services and provide different kinds of inputs ourselves.
 
-In the [previous post](https://scala.monster/welcome-zio/) we were not using the environment part of the ZIO data type. 
+In the [previous post](/welcome-zio/) we were not using the environment part of the ZIO data type. 
 It is time to change that. 
 We will adopt the module pattern.
 Please check the [official documentation](https://zio.dev/docs/howto/howto_use_module_pattern) to get a deep understanding of the pattern and background behind it.
