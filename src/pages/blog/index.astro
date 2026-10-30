@@ -1,0 +1,81 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostList from '../../components/PostList.astro';
+import { getPosts } from '../../lib/posts';
+
+const posts = await getPosts();
+const years = [...new Set(posts.map((post) => post.data.date.getUTCFullYear()))];
+---
+
+<Base title="Writing" description="Articles on Scala, functional programming, ZIO, Tagless Final and event-driven systems.">
+  <div class="wrap cols page-head">
+    <h1>Writing</h1>
+    <p class="statement">
+      Long-form posts on Scala, functional programming and event-driven systems. Library APIs have moved on since; the
+      ideas mostly have not.
+    </p>
+  </div>
+
+  {
+    years.map((year) => (
+      <section class="wrap cols year" aria-labelledby={`y${year}`}>
+        <h2 id={`y${year}`} class="figure">
+          {year}
+        </h2>
+        <div class="list">
+          <PostList posts={posts.filter((post) => post.data.date.getUTCFullYear() === year)} />
+        </div>
+      </section>
+    ))
+  }
+</Base>
+
+<style>
+  .page-head {
+    row-gap: var(--space-xl);
+    padding-top: var(--space-2xl);
+  }
+
+  h1 {
+    font-size: var(--text-title);
+    letter-spacing: -0.045em;
+    line-height: 0.92;
+  }
+
+  .statement {
+    max-width: var(--measure);
+    margin: 0;
+  }
+
+  .year {
+    row-gap: var(--space-lg);
+    margin-top: var(--space-3xl);
+  }
+
+  .year + .year {
+    margin-top: var(--space-2xl);
+  }
+
+  .year h2 {
+    font-size: var(--text-section);
+  }
+
+  @media (min-width: 56rem) {
+    h1 {
+      grid-column: 1 / 13;
+    }
+
+    .statement {
+      grid-column: 4 / 13;
+    }
+
+    .year h2 {
+      grid-column: 1 / 4;
+    }
+
+    .list {
+      grid-column: 4 / 13;
+      max-width: var(--measure);
+    }
+  }
+</style>

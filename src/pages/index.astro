@@ -1,0 +1,616 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PostList from '../components/PostList.astro';
+import portrait from '../assets/portrait.png';
+import { person, profile, experience, skills, education, languages } from '../data/cv';
+import { getPosts, isOutdated } from '../lib/posts';
+
+const posts = (await getPosts()).filter((post) => !isOutdated(post)).slice(0, 4);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: person.name,
+  jobTitle: person.title,
+  url: Astro.site?.href,
+  email: `mailto:${person.email}`,
+  address: { '@type': 'PostalAddress', addressLocality: 'Zurich', addressCountry: 'CH' },
+  sameAs: [person.links.github, person.links.linkedin],
+};
+---
+
+<Base>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+
+  <header class="wrap cols intro">
+    <div class="who">
+      <h1>{person.name}</h1>
+      <ul class="headline">{person.headline.map((item) => <li>{item}</li>)}</ul>
+      <p class="location">{person.location}</p>
+      <div class="reach">
+        <ul class="contacts">
+          <li><a href={`mailto:${person.email}`}>{person.email}</a></li>
+          <li><a href={person.links.linkedin}>LinkedIn</a></li>
+          <li><a href={person.links.github}>GitHub</a></li>
+          <li class="print-only">scala.monster</li>
+        </ul>
+        <a class="btn btn--primary no-print" href={`mailto:${person.email}`}>Email me</a>
+      </div>
+    </div>
+    <figure class="photo portrait">
+      <Image src={portrait} alt={`Portrait of ${person.name}`} widths={[380]} sizes="14rem" loading="eager" />
+    </figure>
+  </header>
+
+  <section class="wrap cols part summary" aria-labelledby="profile">
+    <h2 id="profile" class="label-head">Profile</h2>
+    <div class="body">
+      <p class="profile">{profile}</p>
+    </div>
+  </section>
+
+  <section class="wrap cols part" aria-labelledby="experience">
+    <h2 id="experience" class="label-head">Experience</h2>
+    <div class="body">
+      {
+        experience.map((r) => (
+          <article class="job">
+            <div class="job-head">
+              <h3>{r.role}</h3>
+              <p class="company">{r.company}</p>
+              <p class="when">
+                {r.start} – {r.end}
+              </p>
+            </div>
+            <div class="job-body">
+              {r.scope && <p class="scope">{r.scope}</p>}
+              <ul>
+                {r.bullets.map((b) => (
+                  <li>{b}</li>
+                ))}
+              </ul>
+              <p class="tech">
+                <span class="sr-only">Technologies: </span>
+                {r.tech.join(', ')}
+              </p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="wrap cols part" aria-labelledby="skills">
+    <h2 id="skills" class="label-head">Skills</h2>
+    <dl class="body skills">
+      {
+        skills.map((s) => (
+          <div>
+            <dt>{s.area}</dt>
+            <dd>{s.items}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section class="wrap cols part" aria-labelledby="education">
+    <h2 id="education" class="label-head">Education</h2>
+    <ul class="body pairs pairs--wide">
+      {
+        education.map((e) => (
+          <li>
+            <strong>{e.degree}</strong>
+            <span>
+              {e.school}, {e.years}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="wrap cols part" aria-labelledby="languages">
+    <h2 id="languages" class="label-head">Languages</h2>
+    <ul class="body pairs">
+      {
+        languages.map((l) => (
+          <li>
+            <strong>{l.name}</strong>
+            <span>{l.level}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="wrap cols part no-print writing" aria-labelledby="writing">
+    <h2 id="writing" class="label-head">Writing</h2>
+    <div class="body">
+      <p class="lead">Long-form posts from 2019–2020 on Scala, functional programming and event-driven systems.</p>
+      <PostList posts={posts} />
+      <a class="btn btn--secondary" href="/blog/">All posts</a>
+    </div>
+  </section>
+
+  <section class="wrap cols part no-print contact" id="contact" aria-labelledby="contact-head">
+    <h2 id="contact-head" class="label-head">Contact</h2>
+    <div class="body">
+      <a class="email" href={`mailto:${person.email}`}>{person.email}</a>
+      <p>
+        I'm looking for my next engineering leadership role. If you're building a product team, scaling a real-time
+        platform, or putting AI into production, I'd like to hear about it.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Intro: name, role and ways to reach me; a small portrait on the right */
+  .intro {
+    row-gap: var(--space-xl);
+    padding-block: var(--space-xl) var(--space-lg);
+  }
+
+  h1 {
+    font-size: var(--text-title);
+    letter-spacing: -0.045em;
+    line-height: 0.92;
+  }
+
+  /* Separators sit before every item; the one that starts a line is clipped */
+  .headline {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: var(--space-2xs);
+    margin: var(--space-md) 0 0 calc(-1 * var(--space-sm));
+    padding: 0;
+    overflow: clip;
+    list-style: none;
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .headline li {
+    margin-left: -1px;
+    padding-inline: var(--space-sm);
+    border-left: 1px solid var(--color-muted);
+    line-height: 1.2;
+  }
+
+  .location {
+    margin: var(--space-xs) 0 0;
+    color: var(--color-muted);
+  }
+
+  .reach {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-md) var(--space-xl);
+    margin-top: var(--space-lg);
+  }
+
+  .contacts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs) var(--space-lg);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-weight: 500;
+  }
+
+  .print-only {
+    display: none;
+  }
+
+  .portrait {
+    order: -1;
+    align-self: start;
+    width: 5.5rem;
+  }
+
+  .portrait img {
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: 50% 15%;
+  }
+
+  @media (min-width: 56rem) {
+    .who {
+      grid-column: 1 / 10;
+    }
+
+    .portrait {
+      order: 0;
+      grid-column: 10 / 13;
+      justify-self: end;
+      width: min(100%, 14rem);
+    }
+  }
+
+  /* Section labels hang in columns 1 to 3, content runs from column 4 */
+  .label-head {
+    font-size: var(--text-xl);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .cols > .body {
+    min-width: 0;
+    max-width: var(--measure);
+  }
+
+  @media (min-width: 56rem) {
+    .label-head {
+      grid-column: 1 / 4;
+    }
+
+    .cols > .body {
+      grid-column: 4 / 13;
+    }
+  }
+
+  .part {
+    row-gap: var(--space-md);
+    margin-top: var(--space-3xl);
+  }
+
+  /* Profile */
+  .summary {
+    margin-top: var(--space-2xl);
+  }
+
+  .profile {
+    margin: 0;
+    font-size: var(--text-lg);
+    line-height: 1.5;
+  }
+
+  /* Experience: one column per role, dates set flush right on the title line */
+  @media screen and (min-width: 40rem) {
+    .job-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      column-gap: var(--gap-columns);
+      align-items: baseline;
+    }
+
+    .job-head h3 {
+      grid-area: 1 / 1;
+    }
+
+    .job-head .when {
+      grid-area: 1 / 2;
+      margin: 0;
+    }
+  }
+
+  .job + .job {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-rule);
+  }
+
+  h3 {
+    font-size: var(--text-xl);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .company {
+    margin: var(--space-2xs) 0 0;
+    font-weight: 500;
+  }
+
+  .when {
+    margin: var(--space-2xs) 0 0;
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .job-body {
+    margin-top: var(--space-md);
+  }
+
+  .scope {
+    margin: 0 0 var(--space-md);
+  }
+
+  .job ul {
+    margin: 0;
+    padding-left: var(--space-lg);
+    color: var(--color-ink-2);
+  }
+
+  .job li + li {
+    margin-top: var(--space-xs);
+  }
+
+  .job li::marker {
+    color: var(--color-mark);
+  }
+
+  .tech {
+    margin: var(--space-md) 0 0;
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+  }
+
+  /* Skills, education, languages */
+  .skills {
+    display: grid;
+    gap: var(--space-md);
+    margin: 0;
+  }
+
+  .skills div {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2xs);
+  }
+
+  @media (min-width: 40rem) {
+    .skills div {
+      grid-template-columns: 11rem minmax(0, 1fr);
+      gap: var(--gap-columns);
+    }
+  }
+
+  dt {
+    font-weight: 500;
+  }
+
+  dd {
+    margin: 0;
+    color: var(--color-ink-2);
+  }
+
+  .pairs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-lg) var(--gap-columns);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 56rem) {
+    .pairs {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .pairs--wide {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .pairs li {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pairs strong {
+    font-weight: 500;
+  }
+
+  .pairs span {
+    color: var(--color-muted);
+  }
+
+  /* Writing and contact */
+  .writing {
+    margin-top: var(--space-4xl);
+  }
+
+  .writing .body {
+    display: grid;
+    gap: var(--space-lg);
+    justify-items: start;
+  }
+
+  .writing .body > :global(*) {
+    width: 100%;
+  }
+
+  .writing .body > .btn {
+    width: auto;
+  }
+
+  .lead {
+    max-width: 40rem;
+    margin: 0;
+    font-size: var(--text-lg);
+    color: var(--color-muted);
+  }
+
+  .contact {
+    margin-top: var(--space-4xl);
+  }
+
+  .contact .body {
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .email {
+    justify-self: start;
+    font-family: var(--font-display);
+    font-size: var(--text-statement);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    overflow-wrap: break-word;
+    min-width: 0;
+  }
+
+  .contact p {
+    max-width: 34rem;
+    margin: 0;
+    font-size: var(--text-lg);
+    color: var(--color-muted);
+  }
+
+  /* Print: the same CV on two or three plain pages */
+  @media print {
+    @page {
+      margin: 14mm 16mm;
+    }
+
+    :global(html) {
+      font-size: 11px;
+    }
+
+    :global(body) {
+      background: #fff;
+      color: #111;
+      font-size: 10pt;
+      line-height: 1.4;
+      --color-ink: #111;
+      --color-ink-2: #222;
+      --color-muted: #444;
+      --color-rule: #ddd;
+      --color-mark: #c8261c;
+    }
+
+    .no-print {
+      display: none;
+    }
+
+    .wrap {
+      max-width: none;
+      padding: 0;
+    }
+
+    .intro,
+    .part {
+      display: block;
+    }
+
+    .intro {
+      position: relative;
+      padding: 0 32mm 0 0;
+      min-height: 30mm;
+    }
+
+    h1 {
+      font-size: 24pt;
+    }
+
+    .headline {
+      margin-top: 0.3rem;
+      font-size: 12pt;
+    }
+
+    .location {
+      font-size: 10pt;
+    }
+
+    .contacts {
+      gap: 0 1.25rem;
+      font-weight: 400;
+    }
+
+    .print-only {
+      display: list-item;
+      list-style: none;
+    }
+
+    .portrait {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 28mm;
+    }
+
+
+    .reach {
+      display: block;
+      margin-top: 0.5rem;
+    }
+
+    .part {
+      margin-top: 1.4rem;
+    }
+
+    .label-head {
+      margin-bottom: 0.6rem;
+      padding-bottom: 0.25rem;
+      border-bottom: 1px solid var(--color-rule);
+      font-size: 12pt;
+      break-after: avoid;
+    }
+
+    .profile {
+      font-size: 10pt;
+    }
+
+    .job {
+      display: block;
+    }
+
+    .job-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+    }
+
+    .company,
+    .when {
+      margin: 0;
+    }
+
+    .company::before {
+      content: ',\00a0';
+    }
+
+    .when {
+      margin-left: auto;
+    }
+
+    .cols > .body {
+      max-width: none;
+    }
+
+    .job-body {
+      margin-top: 0.3rem;
+    }
+
+    .job + .job {
+      margin-top: 1rem;
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .job-head,
+    .scope {
+      break-after: avoid;
+    }
+
+    .job li,
+    .tech {
+      break-inside: avoid;
+    }
+
+    h3 {
+      font-size: 11pt;
+    }
+
+    .skills div {
+      grid-template-columns: 9rem minmax(0, 1fr);
+    }
+
+    .pairs {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    a {
+      text-decoration: none;
+    }
+  }
+</style>

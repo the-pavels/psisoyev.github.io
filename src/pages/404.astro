@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Not found">
+  <section class="wrap cols page">
+    <h1>Not found</h1>
+    <p class="statement">
+      This page doesn't exist. Try the <a href="/">home page</a> or the <a href="/blog/">writing</a>.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .page {
+    row-gap: var(--space-xl);
+    padding-top: var(--space-2xl);
+  }
+
+  h1 {
+    font-size: var(--text-title);
+    letter-spacing: -0.045em;
+    line-height: 0.92;
+  }
+
+  .statement {
+    max-width: var(--measure);
+    margin: 0;
+  }
+
+  @media (min-width: 56rem) {
+    h1 {
+      grid-column: 1 / 13;
+    }
+
+    .statement {
+      grid-column: 4 / 13;
+    }
+  }
+</style>

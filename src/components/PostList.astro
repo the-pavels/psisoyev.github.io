@@ -1,0 +1,94 @@
+---
+import { formatDate, isOutdated, readingTime, type Post } from '../lib/posts';
+
+type Props = {
+  posts: Post[];
+};
+
+const { posts } = Astro.props;
+---
+
+<ol class="posts">
+  {
+    posts.map((post) => (
+      <li>
+        <p class="when">
+          <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date, 'short')}</time>
+          <span>{readingTime(post)}</span>
+        </p>
+        <div>
+          <h3>
+            <a href={`/${post.id}/`}>{post.data.title}</a>
+          </h3>
+          <p>{post.data.description}</p>
+          {isOutdated(post) && <p class="note">Superseded by a newer edition</p>}
+        </div>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .posts {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-xs);
+    padding-block: var(--space-lg);
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  li:first-child {
+    padding-top: 0;
+  }
+
+  @media (min-width: 40rem) {
+    li {
+      grid-template-columns: 9rem minmax(0, 1fr);
+      gap: var(--gap-columns);
+    }
+  }
+
+  .when {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+  }
+
+  time {
+    font-weight: 500;
+    color: var(--color-ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  h3 {
+    font-size: var(--text-xl);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  h3 a {
+    text-decoration: none;
+  }
+
+  h3 a:hover {
+    text-decoration: underline 2px;
+  }
+
+  p {
+    margin: var(--space-2xs) 0 0;
+    color: var(--color-muted);
+  }
+
+  .note {
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+</style>
