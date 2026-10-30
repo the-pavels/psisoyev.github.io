@@ -1,0 +1,301 @@
+---
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { formatDate, getPosts, readingTime, type Post } from '../lib/posts';
+import { person } from '../data/cv';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: { post, newer: posts[i - 1], older: posts[i + 1] },
+  }));
+}
+
+type Props = { post: Post; newer?: Post; older?: Post };
+
+const { post, newer, older } = Astro.props;
+const { Content } = await render(post);
+const { title, description, date, cover, tags } = post.data;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  datePublished: date.toISOString(),
+  author: { '@type': 'Person', name: person.name, url: Astro.site?.href },
+  image: cover ? new URL(cover, Astro.site).href : undefined,
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
+};
+---
+
+<Base title={title} description={description} image={cover} type="article" publishedTime={date}>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+
+  <article class="wrap cols post">
+    <h1>{title}</h1>
+
+    <aside class="meta">
+      <p>
+        <time datetime={date.toISOString()}>{formatDate(date)}</time>
+        <span>{readingTime(post)}</span>
+      </p>
+      <ul class="tags" aria-label="Tags">{tags.map((tag) => <li>{tag}</li>)}</ul>
+      <a class="btn btn--secondary" href="/blog/">All writing</a>
+    </aside>
+
+    <div class="body">
+      {
+        cover && (
+          <figure class="cover">
+            <img src={cover} alt="" loading="eager" decoding="async" fetchpriority="high" />
+          </figure>
+        )
+      }
+      <div class="prose">
+        <Content />
+      </div>
+
+      <nav class="pager" aria-label="More posts">
+        {
+          older && (
+            <a href={`/${older.id}/`}>
+              <span class="label">Previous post</span>
+              <span class="pager-title">{older.data.title}</span>
+            </a>
+          )
+        }
+        {
+          newer && (
+            <a href={`/${newer.id}/`}>
+              <span class="label">Next post</span>
+              <span class="pager-title">{newer.data.title}</span>
+            </a>
+          )
+        }
+      </nav>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .post {
+    row-gap: var(--space-xl);
+    padding-top: var(--space-2xl);
+  }
+
+  h1 {
+    max-width: 18em;
+    font-size: var(--text-section);
+    line-height: 1;
+  }
+
+  .meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-lg);
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+  }
+
+  .meta p {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+
+  .meta time {
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tags li {
+    padding: var(--space-2xs) var(--space-xs);
+    background: var(--color-paper-2);
+    font-weight: 500;
+  }
+
+  @media (min-width: 56rem) {
+    h1 {
+      grid-column: 1 / 12;
+    }
+
+    .meta {
+      grid-column: 1 / 4;
+      align-self: start;
+      position: sticky;
+      top: var(--space-xl);
+    }
+
+    .body {
+      grid-column: 4 / 13;
+    }
+  }
+
+  .cover {
+    margin: 0 0 var(--space-3xl);
+    background: var(--color-paper-2);
+  }
+
+  .cover img {
+    display: block;
+    width: 100%;
+  }
+
+  .prose {
+    font-size: var(--text-base);
+    line-height: 1.65;
+  }
+
+  .prose > :global(*) {
+    max-width: 68ch;
+  }
+
+  .prose > :global(pre),
+  .prose > :global(table) {
+    max-width: none;
+  }
+
+  .prose > :global(*:first-child) {
+    margin-top: 0;
+  }
+
+  .prose :global(h2) {
+    margin: var(--space-3xl) 0 var(--space-md);
+    font-size: clamp(1.75rem, 2.6vw, 2.25rem);
+    line-height: 1.05;
+  }
+
+  .prose :global(h3) {
+    margin: var(--space-2xl) 0 var(--space-sm);
+    font-size: 1.375rem;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .prose :global(h4),
+  .prose :global(h5),
+  .prose :global(h6) {
+    margin: var(--space-xl) 0 var(--space-sm);
+    font-size: var(--text-lg);
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+  }
+
+  .prose :global(p),
+  .prose :global(ul),
+  .prose :global(ol),
+  .prose :global(blockquote),
+  .prose :global(pre),
+  .prose :global(table) {
+    margin: 0 0 var(--space-lg);
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: var(--space-lg);
+  }
+
+  .prose :global(li + li) {
+    margin-top: var(--space-2xs);
+  }
+
+  .prose :global(li::marker) {
+    color: var(--color-muted);
+  }
+
+  .prose :global(strong) {
+    font-weight: 600;
+  }
+
+  .prose :global(blockquote) {
+    padding-left: var(--space-lg);
+    border-left: 3px solid var(--color-mark);
+    color: var(--color-muted);
+  }
+
+  .prose :global(:not(pre) > code) {
+    font-family: var(--font-code);
+    font-size: 0.875em;
+    padding: 0.1em 0.3em;
+    background: var(--color-paper-2);
+    overflow-wrap: break-word;
+  }
+
+  .prose :global(img) {
+    display: block;
+    margin: var(--space-xl) 0;
+  }
+
+  .prose :global(hr) {
+    margin: var(--space-3xl) 0;
+    border: 0;
+    border-top: 1px solid var(--color-rule);
+  }
+
+  .prose :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+
+  .prose :global(th),
+  .prose :global(td) {
+    padding: var(--space-xs) var(--space-sm);
+    border-bottom: 1px solid var(--color-rule);
+    text-align: left;
+  }
+
+  @media (max-width: 55.99rem) {
+    .prose :global(pre) {
+      margin-inline: calc(-1 * var(--gutter));
+    }
+  }
+
+  .pager {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-xl);
+    margin-top: var(--space-3xl);
+  }
+
+  @media (min-width: 40rem) {
+    .pager {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .pager a {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-lg);
+    background: var(--color-paper-2);
+    text-decoration: none;
+    transition: background-color var(--dur-short) var(--ease-out);
+  }
+
+  .pager a:hover {
+    color: inherit;
+    background: var(--color-paper-3);
+  }
+
+  .pager-title {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+</style>

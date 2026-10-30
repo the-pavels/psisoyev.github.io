@@ -1,19 +1,23 @@
 {
-  "name": "Jekyll-Gulp-Sass-Autoprefixer-Imagemin-BrowserSync",
+  "name": "scala-monster",
+  "type": "module",
   "version": "1.0.0",
-  "description": "A starter project for Jekyll",
-  "main": "index.js",
-  "repository": "https://github.com/artemsheludko/Jekyll-Gulp-Sass-Autoprefixer-Imagemin-BrowserSync",
-  "author": "Artem Sheludko",
-  "license": "MIT",
+  "private": true,
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
   "dependencies": {
-    "browser-sync": "^2.18.13",
-    "child_process": "^1.0.2",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^4.0.0",
-    "gulp-cache": "^0.4.6",
-    "gulp-imagemin": "^3.2.0",
-    "gulp-sass": "^3.1.0",
-    "imagemin-pngquant": "^5.0.0"
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/geist-mono": "^5.3.0",
+    "@fontsource-variable/radio-canada": "^5.3.0",
+    "@fontsource-variable/radio-canada-big": "^5.3.0",
+    "astro": "^7.4.4"
   }
 }

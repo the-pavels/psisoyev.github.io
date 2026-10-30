@@ -1,0 +1,235 @@
+---
+import '@fontsource-variable/radio-canada-big';
+import '@fontsource-variable/radio-canada';
+import '@fontsource-variable/geist-mono';
+import '../styles/global.css';
+import portrait from '../assets/portrait.png';
+import { person } from '../data/cv';
+
+type Props = {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishedTime?: Date;
+};
+
+const {
+  title,
+  description = `${person.name}, engineering leader in ${person.location}. Applied AI, real-time systems, and building products at scale.`,
+  image,
+  type = 'website',
+  publishedTime,
+} = Astro.props;
+
+const [firstName, lastName] = person.name.split(' ');
+const fullTitle = title ? `${title}, ${person.name}` : `${person.name}, engineering leader`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image ?? portrait.src, Astro.site);
+const path = Astro.url.pathname;
+
+const nav = [
+  { href: '/#experience', label: 'Experience' },
+  { href: '/blog/', label: 'Writing' },
+  { href: '/#contact', label: 'Contact' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="author" content={person.name} />
+
+    <meta property="og:site_name" content="scala.monster" />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title ?? fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    {publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
+    <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#f8f7f3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#131210" media="(prefers-color-scheme: dark)" />
+    <link rel="alternate" type="application/rss+xml" title="scala.monster" href="/rss.xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link btn btn--primary" href="#main">Skip to content</a>
+    <header class="site-header wrap cols">
+      <a class="wordmark" href="/" aria-label={`${person.name}, home`}>
+        <span class="monogram" aria-hidden="true">PS</span>
+        <span class="first">{firstName}</span>
+        <span class="last">{lastName}</span>
+      </a>
+      <nav aria-label="Main">
+        <ul>
+          {
+            nav.map((item) => (
+              <li>
+                <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer wrap cols">
+      <p>© {new Date().getFullYear()} {person.name}, {person.location}</p>
+      <ul>
+        <li><a href={`mailto:${person.email}`}>Email</a></li>
+        <li><a href={person.links.linkedin}>LinkedIn</a></li>
+        <li><a href={person.links.github}>GitHub</a></li>
+        <li><a href="/rss.xml">RSS</a></li>
+      </ul>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-h);
+  }
+
+  @media (min-width: 56rem) {
+    .site-header {
+      display: grid;
+    }
+  }
+
+  :global(:root) {
+    --header-h: 4.5rem;
+  }
+
+  .wordmark {
+    display: inline-grid;
+    grid-template-columns: auto auto;
+    column-gap: var(--space-sm);
+    justify-self: start;
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+
+  .monogram {
+    display: grid;
+    place-items: center;
+    grid-row: span 2;
+    aspect-ratio: 1;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .wordmark:hover {
+    color: inherit;
+  }
+
+  .first {
+    font-weight: 700;
+  }
+
+  .last {
+    font-weight: 400;
+  }
+
+  nav {
+    justify-self: end;
+  }
+
+  nav ul {
+    display: flex;
+    gap: var(--space-lg);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  nav a {
+    display: block;
+    padding-block: var(--space-sm);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  nav a[aria-current='page'] {
+    color: var(--color-mark-text);
+  }
+
+  @media (min-width: 56rem) {
+    .wordmark {
+      grid-column: 1 / 5;
+    }
+
+    nav {
+      grid-column: 8 / 13;
+    }
+  }
+
+  .site-footer {
+    row-gap: var(--space-sm);
+    align-items: baseline;
+    padding-block: var(--space-2xl) var(--space-xl);
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+  }
+
+  .site-footer p {
+    margin: 0;
+  }
+
+  .site-footer ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-lg);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 56rem) {
+    .site-footer p {
+      grid-column: 1 / 8;
+    }
+
+    .site-footer ul {
+      grid-column: 8 / 13;
+      justify-self: end;
+    }
+  }
+
+  @media print {
+    .site-header,
+    .site-footer,
+    .skip-link {
+      display: none;
+    }
+  }
+</style>
