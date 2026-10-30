@@ -1,6 +1,6 @@
 # scala.monster
 
-Personal site and blog of Pavels Sisojevs, built with [Astro](https://astro.build) and deployed to GitHub Pages at [scala.monster](https://scala.monster).
+Personal site and blog of Pavels Sisojevs, built with [Astro](https://astro.build) and deployed to Netlify at [scala.monster](https://scala.monster).
 
 ## Development
 
@@ -18,10 +18,10 @@ npm run preview  # serve the production build
 - `src/data/cv.ts` — profile, experience, skills; the home page is the CV, rendered from this file
 - `src/content/posts/` — blog posts in Markdown; the file name is the URL slug (`zio-test.md` → `/zio-test/`)
 - `src/pages/` — routes: home (the CV), `/blog/`, post pages, RSS feed, 404
-- `public/` — static files served as-is, including legacy `/assets/img/` paths and `CNAME`
+- `public/` — static files served as-is, including legacy `/assets/img/` paths
 
 Set `draft: true` in a post's front matter to keep it out of the build.
 
 ## Deployment
 
-Every push to `master` runs `.github/workflows/deploy.yml`, which builds the site and publishes it to GitHub Pages. In the repository settings, Pages must use **GitHub Actions** as its source.
+Netlify builds and publishes every push to `master`. The build command, publish directory and Node version are set in `netlify.toml`, which overrides the settings in the Netlify UI.
