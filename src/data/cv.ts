@@ -11,7 +11,7 @@ export const person = {
 };
 
 export const profile =
-  'Product-focused engineering leader with 15+ years of experience building consumer platforms and real-time communication products. At Chatroulette, led product and engineering across a 15-person team, turning the platform into a moderated consumer product with paid features, an internal currency, and millions of monthly active users. Moved the team to AI-assisted development and architected the AI moderation pipeline. Hands-on in distributed and event-driven systems, WebRTC, Scala, Kubernetes, experimentation, and mobile delivery.';
+  'Product-focused engineering leader with 15+ years of experience building consumer platforms and real-time systems. Most recently led product and engineering at a video-chat platform with millions of monthly active users, turning it into a moderated product with paid features and an internal currency. Moved the 15-person team to AI-assisted development and architected the AI moderation pipeline. Still ships code across the whole product: backend services, the WebRTC video stack, the Kubernetes infrastructure underneath, and the mobile apps.';
 
 export type Role = {
   company: string;
