@@ -58,7 +58,7 @@ It might slightly remind you of aspect-oriented programming.
 The idea is very simple - we extract utility logic from the core logic.
 For example, logging or input data validation can be extracted into small separate modules. 
 
-We will start with cleaning up the `Departures` service which we have created in the [previous article](https://scala.monster/train-station/).
+We will start with cleaning up the `Departures` service which we have created in the [previous article](/train-station/).
 If you haven't read the article or already have forgotten what it is about, you always can [find the service implementation on GitHub](https://github.com/the-pavels/train-station/blob/master/service/src/main/scala/com/psisoyev/train/station/departure/Departures.scala#L31).
 I can see at least 2 things we could separate from the core logic.
 The first one is logging before and after the method call.
@@ -449,7 +449,7 @@ After setting up the layout logs are presented in JSON format:
 ```
 
 ## Summary
-In this article, we've improved the code of `train-station` app from the [previous article](https://scala.monster/train-station/).
+In this article, we've improved the code of `train-station` app from the [previous article](/train-station/).
 We have used several new libraries - `derevo` and `log4cats`.
 Most importantly we tried a fresh dish from Scala chefs - [Tofu](https://github.com/tofu-tf/tofu).
 

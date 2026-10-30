@@ -5,3 +5,16 @@
 
 [build.environment]
   NODE_VERSION = "24"
+
+# Old domain, kept as a domain alias: send every path to the new primary domain
+[[redirects]]
+  from = "https://scala.monster/*"
+  to = "https://pavels.im/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.scala.monster/*"
+  to = "https://pavels.im/:splat"
+  status = 301
+  force = true

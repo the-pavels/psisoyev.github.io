@@ -6,7 +6,7 @@ import { person } from '../data/cv';
 export async function GET(context: APIContext) {
   const posts = await getPosts();
   return rss({
-    title: 'scala.monster',
+    title: 'pavels.im',
     description: `Writing by ${person.name} on Scala, functional programming and distributed systems.`,
     site: context.site!,
     items: posts.map((post) => ({
