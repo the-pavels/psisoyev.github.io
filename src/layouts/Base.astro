@@ -1,6 +1,5 @@
 ---
-import '@fontsource-variable/radio-canada-big';
-import '@fontsource-variable/radio-canada';
+import { Font, fontData } from 'astro:assets';
 import '@fontsource-variable/geist-mono';
 import '../styles/global.css';
 import portrait from '../assets/portrait.png';
@@ -28,6 +27,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image ?? portrait.src, Astro.site);
 const path = Astro.url.pathname;
 
+// Latin files of the text fonts, which every page needs. Each family's first face is Latin, see fonts in astro.config.mjs
+const fontPreloads = (['--font-radio-canada-big', '--font-radio-canada'] as const).map((v) => fontData[v][0].src[0].url);
+
 const nav = [
   { href: '/#experience', label: 'Experience' },
   { href: '/blog/', label: 'Writing' },
@@ -41,6 +43,9 @@ const nav = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
+    <Font cssVariable="--font-radio-canada-big" />
+    <Font cssVariable="--font-radio-canada" />
+    {fontPreloads.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <meta name="author" content={person.name} />

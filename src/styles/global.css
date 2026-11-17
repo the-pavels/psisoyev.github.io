@@ -18,8 +18,9 @@
   --color-mark-ink: oklch(97.5% 0.005 90);
   --color-mark-text: oklch(52% 0.2 29);
 
-  --font-display: 'Radio Canada Big Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-body: 'Radio Canada Variable', ui-sans-serif, system-ui, sans-serif;
+  /* Font stacks with metric-matched fallbacks, defined by <Font> in Base.astro */
+  --font-display: var(--font-radio-canada-big);
+  --font-body: var(--font-radio-canada);
   --font-code: 'Geist Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
   --tracking-display: -0.035em;
   --body-weight: 400;
