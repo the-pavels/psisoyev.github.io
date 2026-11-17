@@ -6,7 +6,7 @@ tags: [career, ai, hiring]
 ---
 <div class="tldr">
 
-Almost every job ad has a line like "5+ years of experience with Technology X". I think it's still a fair thing to ask for, but it now measures something different. With AI, a first working version of almost anything costs very little, while making it correct, useful and maintainable did not get that cheap. I'm writing about generalists here, specialists are a different case.
+Almost every job ad has a line like "5+ years of experience with Technology X". Sometimes it asks for more years than Technology X exists. I think it's still a fair thing to ask for, but it now measures something different. With AI, a first working version of almost anything costs very little, while making it correct, useful and maintainable did not get that cheap. I'm writing about generalists here, specialists are a different case.
 
 </div>
 <details class="full" open>
@@ -34,7 +34,7 @@ Earlier the knowledge of framework internals by heart made you visibly faster. T
 <details class="full" open>
 <summary>More on this</summary>
 
-There is an old idea of a T-shaped engineer: broad knowledge, deep in a few places. What changed is where the depth goes. Earlier it was good to know several technologies that you use daily really deep and scratch others on the surface. The knowledge of internals of Spring/React/&lt;insert another framework here&gt; by heart made you visibly faster (smarter?) than a colleague who had to look them up. Today both of you have a magical box that can walk you through those internals when needed. Much more important is to know what are the general options available. It shifted from how to do something to what to do and what is even more important - what are the trade-offs. Don't get me wrong, what to do was always important but today it became even more important, I will get back to it later in the product section.
+There is an old idea of a T-shaped engineer: broad knowledge, deep in a few places. What changed is where the depth goes. Earlier it was good to know several technologies that you use daily really deep and scratch others on the surface. The knowledge of internals of Spring/React/&lt;insert another framework here&gt; by heart made you visibly faster (smarter?) than a colleague who had to look them up on Stack Overflow (and got the question closed as duplicate). Today both of you have a magical box that can walk you through those internals when needed. Much more important is to know what are the general options available. It shifted from how to do something to what to do and what is even more important - what are the trade-offs. Don't get me wrong, what to do was always important but today it became even more important, I will get back to it later in the product section.
 
 Details of a framework you can look up when you know you need them. Fundamentals are what tell you there is something to look up: how data stays consistent, what happens when a call fails, what one more component costs to run and what could be the risks. You don't need to know all the answers but you need to know which questions to ask. However, it's important to understand that AI reduces the cost of looking things up, not the cost of making a mistake. More importantly, it's hard to recognize a problem in an area you don't understand. Sometimes you won't even notice a problem at first.
 
@@ -85,7 +85,7 @@ AI knows a lot about system design, but it might be missing some context about y
 
 AI knows a lot about system design. It has read all the books with the animals on the cover. However, those books describe systems in general and AI might be missing some context about yours. It might not know your traffic isn't the same as Google or your budget unless you tell it. It will use the information but still, you won't be able to delegate the consequences: it won't be the one woken up when things break.
 
-Ask AI for a notification feature and you can get a queue, a worker and a retry mechanism in minutes. It's a textbook design. If a database table and a scheduled job would have been enough is a question you have to ask because you are the one who will operate the extra moving part for years.
+Ask AI for a notification feature and you can get a queue, a worker and a retry mechanism in minutes. It's a textbook design and now you run a distributed system to send 20 emails a day. If a database table and a scheduled job would have been enough is a question you have to ask because you are the one who will operate the extra moving part for years.
 
 This is the depth I mean: fundamentals. How a specific queue library works is something you can look up. This knowledge also expires quickly. What a queue costs you and what it gives you in return is something you have to know. That knowledge doesn't expire with the next framework version and it tells you when a perfectly good answer is the wrong one for your problem. Five years with a queue library doesn't tell me whether someone knows when not to use a queue.
 
@@ -114,7 +114,7 @@ Most of those needs are not written down anywhere, so no model has them until so
 
 Generated features work. Their problem is that they contain everything you mentioned. Imagine users asking for CSV export of data. You have a first version in minutes, with every column from the table. Later you find out that users open the file once a month to copy three totals for their accountant. If you would ask, you would have known which three numbers and could have put them on the screen. If every customer had given a different answer, you would have known that export is the right feature and which columns it needs.
 
-When a feature took two weeks, someone usually asked whether it was worth building. When a first version takes minutes, often nobody does and the wrong feature gets built faster. So ask before you build: who needs this and what do they do with it afterwards? The answers are in support tickets, sales calls and in conversations with the people who use your product.
+When a feature took two weeks, someone usually asked whether it was worth building (usually the one who had to build it). When a first version takes minutes, often nobody does and the wrong feature gets built faster. So ask before you build: who needs this and what do they do with it afterwards? The answers are in support tickets, sales calls and in conversations with the people who use your product.
 
 Caution: the facts of one company's domain don't travel with you, but the habit of asking who needs this does.
 
@@ -143,11 +143,11 @@ It can, but only by someone who knows it matters. When a model has everything, s
 
 **"If domain knowledge matters so much, let the domain expert build it with AI"**
 
-Some will and for simple tools that's fine. However, the complexity of maintenance under the screen doesn't disappear because a non-developer generated it. Someone has to answer for correctness, security, reliability and what it costs to change a year later. Whoever does that is doing the developer's job, whatever their title.
+Some will and for simple tools that's fine. However, the complexity of maintenance under the screen doesn't disappear because a non-developer generated it. Someone has to answer for correctness, security, reliability and what it costs to change a year later. Whoever does that is doing the developer's job, whatever their title. We have seen this before, it was called Excel. Someone still had to maintain the spreadsheet with 14 tabs after its author left the company.
 
 **"If building is so cheap, why think first? Just build it, look at it and rebuild"**
 
-That works until real people use it. A feature is cheap to add and expensive to remove, because by then someone depends on it. Remove that CSV export a year later and your customer support will instantly receive rage messages.
+That works until real people use it. A feature is cheap to add and expensive to remove, because by then ![someone depends on it](https://xkcd.com/1172/). Remove that CSV export a year later and your customer support will instantly receive rage messages.
 
 **"Easy to say after 15 years"**
 
