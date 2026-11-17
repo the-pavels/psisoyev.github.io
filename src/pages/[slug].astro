@@ -17,7 +17,8 @@ type Props = { post: Post; newer?: Post; older?: Post };
 
 const { post, newer, older } = Astro.props;
 const { Content } = await render(post);
-const { title, description, date, cover, tags } = post.data;
+const { title, description, date, cover, ogImage, tags } = post.data;
+const previewImage = ogImage ?? cover;
 
 // A post opts in to the TL;DR view by pairing <div class="tldr"> blocks with <details class="full" open> sections
 const hasTldr = (post.body ?? '').includes('<div class="tldr">');
@@ -31,12 +32,12 @@ const jsonLd = {
   description,
   datePublished: date.toISOString(),
   author: { '@type': 'Person', name: person.name, url: Astro.site?.href },
-  image: cover ? new URL(cover, Astro.site).href : undefined,
+  image: previewImage ? new URL(previewImage, Astro.site).href : undefined,
   mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).href,
 };
 ---
 
-<Base title={title} description={description} image={cover} type="article" publishedTime={date}>
+<Base title={title} description={description} image={previewImage} type="article" publishedTime={date}>
   <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
   <!--
     Full post by default; ?view=tldr in the URL opens the TL;DR. Picked before first paint.

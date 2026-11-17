@@ -9,6 +9,8 @@ const posts = defineCollection({
     date: z.coerce.date(),
     description: z.string(),
     cover: z.string().optional(),
+    // Link preview image only, not shown on the page. Falls back to cover
+    ogImage: z.string().optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
   }),

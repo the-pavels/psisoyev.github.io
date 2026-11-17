@@ -2,11 +2,14 @@
 title: "5+ years of experience with Technology X"
 date: 2026-11-16
 description: "AI made writing code cheap. What that does to the value of deep framework knowledge, what is still worth learning and what years of experience actually measure."
+ogImage: /assets/img/years-of-exp/job-ad.png
 tags: [career, ai, hiring]
 ---
+![Fake job ad for a Senior Software Engineer at Totally Real Company, Inc. Requirements: 100+ years of experience with Java, 5+ years with [INSERT FRAMEWORK] (released last Tuesday), fluent in frameworks not yet invented](../../../public/assets/img/years-of-exp/job-ad.png)
+
 <div class="tldr">
 
-Almost every job ad has a line like "5+ years of experience with Technology X". Sometimes it asks for more years than Technology X exists. I think it's still a fair thing to ask for, but it now measures something different. With AI, a first working version of almost anything costs very little, while making it correct, useful and maintainable did not get that cheap. I'm writing about generalists here, specialists are a different case.
+Almost every job ad has a line like "5+ years of experience with Technology X". Sometimes it asks for more years than Technology X exists. Technology X here is any framework or tool. I think it's still a fair thing to ask for, but it now measures something different. With AI, a first working version of almost anything costs very little, while making it correct, useful and maintainable did not get that cheap. I'm writing about generalists here, specialists are a different case.
 
 </div>
 <details class="full" open>
@@ -14,7 +17,7 @@ Almost every job ad has a line like "5+ years of experience with Technology X". 
 
 "5+ years of experience with Technology X."
 
-Almost every job ad has a line like this. For all my 15 years in the industry I read it with a weird feeling. Lately I can't read it without asking what exactly it measures. I think it's still a fair thing to ask for, but it now measures something different. I'd like to share why.
+Almost every job ad has a line like this. Technology X can be anything: Spring, React, Kafka, Kubernetes, whatever your stack is built on. For all my 15 years in the industry I read it with a weird feeling. Lately I can't read it without asking what exactly it measures. I think it's still a fair thing to ask for, but it now measures something different. I'd like to share why.
 
 Engineers have said for decades that typing code is not the hard part, so that idea is not new. What is new is the price of coding. With AI, a first working version of almost anything costs very little, while making it correct, useful and maintainable did not get that cheap. Understanding became optional. You can now ship things you don't understand. For a while.
 
