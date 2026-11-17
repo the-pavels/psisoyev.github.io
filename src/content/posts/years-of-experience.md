@@ -5,7 +5,7 @@ description: "AI made writing code cheap. What that does to the value of deep fr
 ogImage: /assets/img/years-of-exp/job-ad.png
 tags: [career, ai, hiring]
 ---
-![Fake job ad for a Senior Software Engineer at Totally Real Company, Inc. Requirements: 100+ years of experience with Java, 5+ years with [INSERT FRAMEWORK] (released last Tuesday), fluent in frameworks not yet invented](../../../public/assets/img/years-of-exp/job-ad.png)
+![Job ad for a Senior Software Engineer. Requirements: 100+ years of experience with Java, 5+ years with Technology X, can explain the code the AI wrote](../../../public/assets/img/years-of-exp/job-ad.png)
 
 <div class="tldr">
 
