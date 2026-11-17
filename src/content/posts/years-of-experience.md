@@ -147,7 +147,7 @@ Some will and for simple tools that's fine. However, the complexity of maintenan
 
 **"If building is so cheap, why think first? Just build it, look at it and rebuild"**
 
-That works until real people use it. A feature is cheap to add and expensive to remove, because by then [someone depends on it](https://xkcd.com/1172/). Remove that CSV export a year later and your customer support will instantly receive rage messages.
+That works until real people use it. A feature is cheap to add and expensive to remove, because by then <a href="https://xkcd.com/1172/" target="_blank" rel="noopener noreferrer">someone depends on it</a>. Remove that CSV export a year later and your customer support will instantly receive rage messages.
 
 **"Easy to say after 15 years"**
 
