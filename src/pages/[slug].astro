@@ -21,6 +21,8 @@ const { title, description, date, cover, tags } = post.data;
 
 // A post opts in to the TL;DR view by pairing <div class="tldr"> blocks with <details class="full" open> sections
 const hasTldr = (post.body ?? '').includes('<div class="tldr">');
+// Pictures folded away in a plain <details>
+const hasFoldedPictures = /<details>/.test(post.body ?? '');
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -88,6 +90,20 @@ const jsonLd = {
               for (const section of document.querySelectorAll('.prose details.full')) section.open = false;
             }
             document.documentElement.dataset.postReady = '';
+          </script>
+        )
+      }
+      {
+        /*
+          A folded picture is lazy, so it would start downloading only when its <details> is opened.
+          Fetch them once the rest of the page has loaded, unless the reader asked to save data.
+        */
+        hasFoldedPictures && (
+          <script is:inline>
+            addEventListener('load', () => {
+              if (navigator.connection && navigator.connection.saveData) return;
+              for (const img of document.querySelectorAll('.prose details:not(.full) img')) img.loading = 'eager';
+            });
           </script>
         )
       }
