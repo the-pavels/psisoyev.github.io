@@ -1,0 +1,97 @@
+---
+// TL;DR / Full switch for a post, the same control as on the CV page.
+// The page sets html[data-post] in a head script before first paint; this only handles clicks.
+---
+
+<div class="view-toggle" role="group" aria-label="Post length">
+  <button type="button" data-view="full" aria-pressed="true">Full</button>
+  <button type="button" data-view="tldr" aria-pressed="false">TL;DR</button>
+</div>
+
+<script>
+  const root = document.documentElement;
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.view-toggle [data-view]');
+  const sections = document.querySelectorAll<HTMLDetailsElement>('.prose details.full');
+  const headings = document.querySelectorAll<HTMLElement>('.prose > h2, .prose > h3');
+
+  const sync = () => {
+    for (const button of buttons) {
+      button.setAttribute('aria-pressed', String(button.dataset.view === root.dataset.post));
+    }
+  };
+
+  for (const button of buttons) {
+    button.addEventListener('click', () => {
+      const view = button.dataset.view!;
+      if (view === root.dataset.post) return;
+
+      // Keep the reader's place while the text folds or unfolds: the first heading in the top quarter
+      // of the screen stays where it is. With none there, the heading of the section being read
+      // comes back just under the top edge.
+      let anchor: HTMLElement | undefined;
+      for (const heading of headings) {
+        const top = heading.getBoundingClientRect().top;
+        if (top >= innerHeight / 4) break;
+        anchor = heading;
+        if (top >= 0) break;
+      }
+      const before = Math.max(anchor?.getBoundingClientRect().top ?? 0, 24);
+
+      root.dataset.post = view;
+      for (const section of sections) section.open = view === 'full';
+      if (anchor) scrollBy({ top: anchor.getBoundingClientRect().top - before, behavior: 'instant' });
+
+      // Keep a shared ?view= link in step with what is on screen
+      const url = new URL(location.href);
+      if (url.searchParams.has('view')) {
+        url.searchParams.set('view', view);
+        history.replaceState(history.state, '', url);
+      }
+      sync();
+    });
+  }
+
+  sync();
+</script>
+
+<style>
+  /* Hidden until the head script has set data-post, so never without JavaScript */
+  .view-toggle {
+    display: none;
+    border: 1px solid var(--color-ink);
+    color: var(--color-ink);
+  }
+
+  @media screen {
+    :global(html[data-post]) .view-toggle {
+      display: inline-flex;
+    }
+  }
+
+  .view-toggle button {
+    min-height: 44px;
+    padding-inline: var(--space-md);
+    border: 0;
+    border-radius: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-short) var(--ease-out),
+      color var(--dur-short) var(--ease-out);
+  }
+
+  .view-toggle button:hover {
+    color: var(--color-mark-text);
+  }
+
+  /* Styled from the root attribute, not aria-pressed, so the right button is filled on first paint */
+  :global(html[data-post='tldr']) [data-view='tldr'],
+  :global(html[data-post='full']) [data-view='full'] {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+</style>

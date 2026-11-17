@@ -11,7 +11,9 @@ export async function getPosts(): Promise<Post[]> {
 export const isOutdated = (post: Post) => post.data.tags.includes('rc17');
 
 export function readingTime(post: Post): string {
-  const words = (post.body ?? '').split(/\s+/).filter(Boolean).length;
+  // TL;DR blocks repeat the full text, so they add no reading time
+  const text = (post.body ?? '').replace(/<div class="tldr">[\s\S]*?<\/div>/g, '');
+  const words = text.split(/\s+/).filter(Boolean).length;
   return `${Math.max(1, Math.round(words / 230))} min read`;
 }
 

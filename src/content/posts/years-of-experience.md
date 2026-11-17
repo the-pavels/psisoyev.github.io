@@ -4,6 +4,14 @@ date: 2026-11-16
 description: "AI made writing code cheap. What that does to the value of deep framework knowledge, what is still worth learning and what years of experience actually measure."
 tags: [career, ai, hiring]
 ---
+<div class="tldr">
+
+Almost every job ad has a line like "5+ years of experience with Technology X". I think it's still a fair thing to ask for, but it now measures something different. With AI, a first working version of almost anything costs very little, while making it correct, useful and maintainable did not get that cheap. I'm writing about generalists here, specialists are a different case.
+
+</div>
+<details class="full" open>
+<summary>More on this</summary>
+
 "5+ years of experience with Technology X."
 
 Almost every job ad has a line like this. For all my 15 years in the industry I read it with a weird feeling. Lately I can't read it without asking what exactly it measures. I think it's still a fair thing to ask for, but it now measures something different. I'd like to share why.
@@ -14,7 +22,17 @@ That changes what the job ad line measures. Years with Technology X stood for a 
 
 I'm writing about generalists here: people who build typical products. Specialists are a different case. Where requirements are extreme (a trading system that counts microseconds, a database engine, security-critical code), depth in the technology is the job and a subtle mistake costs too much to take an answer on trust. There are few such roles and I don't think they are going away.
 
+</details>
+
 ## How deep should I go?
+
+<div class="tldr">
+
+Earlier the knowledge of framework internals by heart made you visibly faster. Today a magical box can walk you through those internals when needed. Much more important is to know the fundamentals, the options available and the trade-offs. AI reduces the cost of looking things up, not the cost of making a mistake.
+
+</div>
+<details class="full" open>
+<summary>More on this</summary>
 
 There is an old idea of a T-shaped engineer: broad knowledge, deep in a few places. What changed is where the depth goes. Earlier it was good to know several technologies that you use daily really deep and scratch others on the surface. The knowledge of internals of Spring/React/&lt;insert another framework here&gt; by heart made you visibly faster (smarter?) than a colleague who had to look them up. Today both of you have a magical box that can walk you through those internals when needed. Much more important is to know what are the general options available. It shifted from how to do something to what to do and what is even more important - what are the trade-offs. Don't get me wrong, what to do was always important but today it became even more important, I will get back to it later in the product section.
 
@@ -22,13 +40,23 @@ Details of a framework you can look up when you know you need them. Fundamentals
 
 There is another shift: implementing functionality becomes cheaper than decision making. Imagine having a performance issue in a system. Before it could take days investigating right tools, understanding framework internals, finding the problem and then implementing a solution. AI helps to reduce time of doing these steps significantly. However, there are lots of decisions to make: evaluate alternative solutions (eg architectural changes), how does one actually be sure that the improvement is real, does the complexity changes after the optimisation is introduced and what are the trade-offs if there are any. To be sure about shipped things one should have a baseline, do changes one by one and have a check for regressions. AI can do all of that too, but it's your job to decide what counts as a good result. In fact, AI helps to introduce bad decisions even faster and that's the real risk.
 
-> AI makes code cheap and options cheap. Choosing between them and answering for the choice, is still your job.
+> AI makes code cheap and options cheap. Choosing between them and being responsible for the choice, is still your job.
+
+</details>
 
 ## What is important for a developer of today?
 
 Everything below is a version of one question: how do you know the result is right?
 
 ### Reading and checking
+
+<div class="tldr">
+
+Text creation is almost free now, so the skill is to decide when it's fine to skim through and when you have to pay more attention. I skim what a machine will surely check for me with tests or a compiler and I read what only a person can check.
+
+</div>
+<details class="full" open>
+<summary>More on this</summary>
 
 This sounds a bit funny but it's a bigger thing now than ever. Text creation is almost free now. You probably have a friend or a colleague who can send you 50 pages long PDF file describing an amazing multibillion startup plan. Intuition usually tells you that the author probably haven't even read the thing himself. So the skill is to decide when it's fine to skim through and when you have to pay a bit more attention. When AI spits out +1000/-1000 diff the brain goes into power saving mode and tells you not to waste energy on review. In the long summary attached to the changes it posted you see one crucial "Also simplified the retry logic" line. At the first sight it sounds like great news, but then you might miss the fact that no one asked for this simplification. Retry code only runs when something breaks, so all tests pass and the "simplified" yet broken code goes to prod.
 
@@ -43,7 +71,17 @@ My rule: I skim what a machine will surely check for me with tests or a compiler
 
 </details>
 
+</details>
+
 ### Fundamentals, system design
+
+<div class="tldr">
+
+AI knows a lot about system design, but it might be missing some context about your system and it won't be the one woken up when things break. How a specific queue library works is something you can look up. What a queue costs you and what it gives you in return is something you have to know.
+
+</div>
+<details class="full" open>
+<summary>More on this</summary>
 
 AI knows a lot about system design. It has read all the books with the animals on the cover. However, those books describe systems in general and AI might be missing some context about yours. It might not know your traffic isn't the same as Google or your budget unless you tell it. It will use the information but still, you won't be able to delegate the consequences: it won't be the one woken up when things break.
 
@@ -58,7 +96,17 @@ This is the depth I mean: fundamentals. How a specific queue library works is so
 
 </details>
 
+</details>
+
 ### Product, UX and domain knowledge
+
+<div class="tldr">
+
+When a first version takes minutes, often nobody asks whether the feature was worth building and the wrong feature gets built faster. So ask before you build: who needs this and what do they do with it afterwards?
+
+</div>
+<details class="full" open>
+<summary>More on this</summary>
 
 When building features is cheap, one developer can ship the whole thing. A designer might or might not be involved. The decision what user sees is now also part of a daily work for many developers that weren't doing any frontend work. Whether they wanted that or not. Of course no one expects a software engineer to do job of a full time designer (or do they?). You don't have to become a designer. Look at products you enjoy using and ask why they feel good and watch how real people use yours.
 
@@ -77,7 +125,17 @@ Caution: the facts of one company's domain don't travel with you, but the habit 
 
 </details>
 
+</details>
+
 ## Fair objections
+
+<div class="tldr">
+
+Can all of this be given to the model? It can, but only by someone who knows it matters. Can the domain expert build it with AI? Someone still has to answer for correctness, security and reliability. Why not just build and rebuild? A feature is cheap to add and expensive to remove. And if I were starting today, I would stay responsible for what I ship and go deep in one thing at least once.
+
+</div>
+<details class="full" open>
+<summary>More on this</summary>
 
 **"All of this can be given to the model"**
 
@@ -105,7 +163,17 @@ I would also use AI as the most patient senior colleague I ever had: ask it why,
 
 I can't prove this works because no one has grown up with these tools yet. I know that for many people starting today, the harder problem is getting the first job at all and unfortunately I don't have a fix for that.
 
+</details>
+
 ## Back to the job ad
+
+<div class="tldr">
+
+Having run X in production still matters and years are a reasonable sign of that. About judgment the number says nothing: ten years can mean ten years of growth or the same year repeated ten times. The way I see it, a senior engineer is someone who can own a complex and poorly defined problem and bring it to a consistently good result.
+
+</div>
+<details class="full" open>
+<summary>More on this</summary>
 
 Back to the line from the job ad: 5+ years of experience with Technology X.
 
@@ -117,7 +185,17 @@ About judgment the number says nothing. Ten years with Technology X can mean ten
 
 The way I see it, a senior engineer is someone who can own a complex and poorly defined problem and bring it to a consistently good result: knowing what to ask, what to decide, what to check, when to involve others and when not to build at all. There is no technology name in this definition and no number of years. Breaking a vague problem into clear tasks is the part that didn't get cheaper. Once the tasks are clear, writing the code was always the easy part. Getting a first version is almost free now, but checking it and living with it are not.
 
+</details>
+
 ## What to ask then?
+
+<div class="tldr">
+
+In the job ad, I would replace the number with what it stands for, for example "has run X in production and been responsible for it". In the interview I would ask: what is the least defined problem you have taken to a result? Then I would keep asking, because the follow-ups are harder to rehearse.
+
+</div>
+<details class="full" open>
+<summary>More on this</summary>
 
 In the job ad, I would replace the number with what it stands for. When the stack matters: "has run X in production and been responsible for it". When it doesn't: "has owned a system in production end to end". Both can still be checked on a CV.
 
@@ -126,3 +204,5 @@ In the interview, if I were hiring today for a senior position, I would ask a di
 This would have been a good question ten years ago too. But ten years ago the person who could build the thing was usually the person who understood it. That is no longer guaranteed, so it makes sense to ask.
 
 It takes longer to answer than a number of years and harder to evaluate. For a senior hire, I think that's a fair price.
+
+</details>
