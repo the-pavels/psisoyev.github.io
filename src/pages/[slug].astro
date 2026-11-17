@@ -178,6 +178,41 @@ const jsonLd = {
     font-weight: 500;
   }
 
+  /*
+   * On narrow screens the meta sits above the post, so keep it short enough for the first lines
+   * of text to show without scrolling: date and reading time on one line, the switch and tags on
+   * the next. "All writing" is left out here, the Writing link in the header goes to the same page.
+   */
+  @media (max-width: 55.99rem) {
+    .meta {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-md) var(--space-sm);
+    }
+
+    .meta p {
+      flex-direction: row;
+      flex-wrap: wrap;
+      column-gap: var(--space-xs);
+      width: 100%;
+    }
+
+    .meta p span::before {
+      content: '·';
+      margin-right: var(--space-xs);
+    }
+
+    .meta .btn {
+      display: none;
+    }
+
+    /* A picture that opens the post starts level with the text column */
+    .prose > :global(:first-child > img:first-child) {
+      margin-top: 0;
+    }
+  }
+
   @media (min-width: 56rem) {
     h1 {
       grid-column: 1 / 12;
